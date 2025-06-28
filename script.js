@@ -1,31 +1,45 @@
-// Show alert for main navigation and hero buttons
-function showComingSoon(feature) {
-    alert(feature + " feature coming soon!");
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Navbar buttons
-    document.getElementById('lostItemsBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Lost Items'); };
-    document.getElementById('foundItemsBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Found Items'); };
-    document.getElementById('reportBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Report'); };
-    document.getElementById('dashboardBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Dashboard'); };
-    document.getElementById('loginBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Login'); };
-    document.getElementById('registerBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Register'); };
+    // Animate cards and stats
+    const animateElements = document.querySelectorAll('.stats-card, .card, .feature-card');
+    animateElements.forEach((el, index) => {
+        el.classList.add('animate-fade');
+        el.style.animationDelay = `${index * 0.1}s`;
+    });
 
-    // Hero section buttons
-    document.getElementById('searchBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Search Items'); };
-    document.getElementById('reportItemBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Report Item'); };
-    document.getElementById('browseBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Browse All Items'); };
-    document.getElementById('ctaRegisterBtn').onclick = function(e) { e.preventDefault(); showComingSoon('Register'); };
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if(this.getAttribute('href') === '#') return;
+            const target = document.querySelector(this.getAttribute('href'));
+            if(target) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 
-    // Search form
-    document.getElementById('searchForm').onsubmit = function(e) {
+    // Simple login form validation
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const query = document.getElementById('searchInput').value.trim();
-        if(query) {
-            alert('Searching for: ' + query + '\n(This would show search results on a real site)');
-        } else {
-            alert('Please enter a search term.');
+        alert('Login successful!\n(Backend integration needed for real login)');
+        var modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+        modal.hide();
+    });
+
+    // Simple register form validation
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pw = document.getElementById('registerPassword').value;
+        const cpw = document.getElementById('confirmPassword').value;
+        if(pw !== cpw) {
+            alert('Passwords do not match!');
+            return;
         }
-    };
+        alert('Registration successful!\n(Backend integration needed for real registration)');
+        var modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+        modal.hide();
+    });
 });
